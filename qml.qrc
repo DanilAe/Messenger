@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>JsSource.js</file>
+        <file>MessageView.qml</file>
+    </qresource>
+</RCC>
