@@ -47,12 +47,11 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if(ip != "")
+                        console.debug("click - " + ip)
+                        console.debug(socket.ipAddr)
+                        if(ip != "" && ip != socket.ipAddr)
                         {
-                            if(usrName !== JsEngine.userInfo.lastUser)
-                            {
-                                JsEngine.changeChat(chatId, ip, usrName)
-                            }
+                            JsEngine.changeChat(chatId, ip, usrName)
                         }
                     }
                 }
@@ -92,9 +91,10 @@ Item {
                 y: 10
                 text: "Ok"
                 onClicked: {
-                    if(m_sock.ipAddr !== txtIp.text)
+                    if(socket.ipAddr !== txtIp.text)
                     {
-                        m_sock.ipAddr = txtIp.text
+
+                        socket.ipAddr = txtIp.text
                         model.clear()
                         chat++
                     }

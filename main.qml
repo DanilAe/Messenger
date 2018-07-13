@@ -17,7 +17,13 @@ ApplicationWindow {
     History {
         id: history
         onClear: msgView.listModel.clear()
-        onGetmessage: JsEngine.add(usrName, msgText, msgDate)
+        onGetmessage: {
+            msgView.listModel.append({
+                                         "usrName": usrName,
+                                         "msgText": msgText,
+                                         "msgDate": msgDate,
+                                     })
+        }
     }
 
     UserInfo {

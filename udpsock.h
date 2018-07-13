@@ -19,6 +19,8 @@ class UdpSock : public QObject
 
 		QHostAddress last = QHostAddress::LocalHost;
 
+		QHostAddress local = QHostAddress::LocalHost;
+
 		quint16 port_last = 8080;
 
 		QString m_usrName;		
@@ -34,7 +36,7 @@ class UdpSock : public QObject
 		explicit UdpSock(QObject *parent = nullptr);
 
 		QString localHost()
-		{ return QHostAddress::LocalHost; }
+		{ return local.toString(); }
 
 		Q_INVOKABLE void sendData(QString data)
 		{ this->sendData(QByteArray().append(data), last, port_last); }
@@ -52,8 +54,6 @@ class UdpSock : public QObject
 
 		void setIpAddr(QString other)
 		{
-			if(QHostAddress(other).isNull())
-				return;
 			last = QHostAddress(other);
 		}
 

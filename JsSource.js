@@ -14,41 +14,46 @@ function send(data)
         return
     }
     var msg = {
-        "usrName": userInfo.usrName,
+        "usrName": "You(" + userInfo.usrName + ")",
         "msgText": data,
         "msgDate": date.toLocaleString(""),
     }
     var str_msg = JSON.stringify(msg)
 
-    history.addMessage(socket.ipAddr, "You(" + userInfo.usrName + ")")
+    history.addMessage(socket.ipAddr, str_msg)
 
-    if(socket.ipAddr !== socket.localHost)
-    {
-        send(str_msg)
-        if(!rContainsIp(socket.ipAddr))
-        {
-            msgView.listModelR.append({
-                                "usrName": "Unkown",
-                                "msgText": aToShort(data),
-                                "ip": m_sock.ipAddr,
-                                "chatId": last() === undefined ? chat + 1 : last().chatId + 1
-                              })
-        }
+    msg = {
+        "usrName": userInfo.usrName,
+        "msgText": data,
+        "msgDate": date.toLocaleString(""),
     }
-    else
+    str_msg = JSON.stringify(msg)
+
+    socket.sendData(str_msg)
+    if(socket.ipAddr == socket.localHost)
     {
         if(!rContainsIp(socket.ipAddr))
         {
             msgView.listModelR.append({
                                 "usrName": "Local Storage",
                                 "msgText": aToShort(data),
-                                "ip": m_sock.ipAddr,
+                                "ip": socket.ipAddr,
                                 "chatId": last() === undefined ? chat + 1 : last().chatId + 1
                               })
         }
         changeChat(last() === undefined ? chat + 1 : last().chatId + 1, "127.0.0.1", "Local Storage")
     }
-    add("You(" + m_sock.usrName + ")", data, date.toLocaleDateString(""))
+    else
+        if(!rContainsIp(socket.ipAddr))
+        {
+            msgView.listModelR.append({
+                                "usrName": "Unkown",
+                                "msgText": aToShort(data),
+                                "ip": socket.ipAddr,
+                                "chatId": last() === undefined ? chat + 1 : last().chatId + 1
+                              })
+        }
+    add("You(" + userInfo.usrName + ")", data, date.toLocaleDateString(""))
 }
 
 function last()
@@ -60,8 +65,6 @@ function add(usrName, msgText, msgDate)
 {
     if(usrName === userInfo.lastUser || usrName === "You(" + userInfo.usrName + ")")
     {
-        if(usrName !== "You(" + userInfo.usrName + ")")
-            msgView.usrNameText = usrName
         var el = {
             "usrName": usrName,
             "msgText": msgText,
@@ -124,10 +127,17 @@ function changeChat(chatId, ip, usrName)
     chat = chatId
     socket.ipAddr = ip
     userInfo.lastUser = usrName
+    history.getMessages(ip)
 }
 
 function newMessage(usrName, msgText, msgDate,ipAddress)
 {
+    history.addMessage(ipAddress, JSON.stringify(
+                           {
+                               "usrName": usrName,
+                               "msgText": msgText,
+                               "msgDate": msgDate
+                           }))
     if(userInfo.lastUser == "" || userInfo.lastUser == "Unkown")
     {
         if(last() !== undefined)

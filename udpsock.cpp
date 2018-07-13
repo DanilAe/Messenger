@@ -25,7 +25,9 @@ void UdpSock::onNewMessage()
 void UdpSock::sendData(QByteArray data, QHostAddress reciever, quint16 recieverPort)
 {
 	Message* msg = new Message(data);
-	qDebug() << "Send to " << reciever.toString() << ":" << recieverPort << '\n' << msg->toString().toStdString().c_str();
 	if(reciever != QHostAddress::LocalHost)
+	{
 		m_pudp->writeDatagram(data, reciever, recieverPort);
+		qDebug() << "Sent to " << reciever.toString() << ":" << recieverPort << '\n' << msg->toString().toStdString().c_str();
+	}
 }

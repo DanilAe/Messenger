@@ -20,7 +20,6 @@ class UserInfo : public QObject
 
 		Q_PROPERTY(QString lastUser READ lastUser WRITE setLastUser)
 
-
 		explicit UserInfo(QObject* parent = nullptr) : QObject(parent)
 		{
 
