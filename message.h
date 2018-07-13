@@ -31,7 +31,7 @@ class Message : public QObject
 			doc = QJsonDocument::fromJson(QByteArray().append(other.toString()));
 		}
 
-		Message(QByteArray data,QObject *parent = nullptr)
+		Message(QByteArray data, QObject *parent = nullptr)
 		{
 			doc = QJsonDocument::fromJson(data);
 		}

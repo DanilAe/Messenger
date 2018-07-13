@@ -14,7 +14,14 @@ ApplicationWindow {
     UdpSocket {
         id: m_sock
         onNewmessage: JsEngine.newMessage(usrName, msgText, msgDate, ipAddress)
-        onGetmessage: JsEngine.add(usrName, msgText, msgDate)
+        onGetmessage: {
+            msgView.listModel.append({
+                                         "usrName": usrName,
+                                         "msgText": msgText,
+                                         "msgDate": msgDate,
+                                     })
+        }
+
         onClear: msgView.listModel.clear()
     }
     MessageView {

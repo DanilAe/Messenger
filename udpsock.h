@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QStringList>
 #include <iomanip>
+#include <QDateTime>
 #include <QVector>
 #include <message.h>
 
@@ -34,7 +35,7 @@ class UdpSock : public QObject
 		Q_INVOKABLE void sendData(QString data)
 		{ this->sendData(QByteArray().append(data), last, port_last); }
 
-		Q_INVOKABLE void getMessages(QString chatName);
+		Q_INVOKABLE void getMessages(QString chatIp);
 
 		explicit UdpSock(QObject *parent = nullptr);
 

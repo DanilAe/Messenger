@@ -20,13 +20,16 @@ function send(data)
         "msgText": data,
         "msgDate": date.toLocaleString(""),
     }
-    var m_data = JSON.stringify(msg)
+    var str_msg = JSON.stringify(msg)
 
     if(m_sock.ipAddr != "127.0.0.1")
     {
-
-        m_sock.addMessage(m_sock.ipAddr, m_data)
-        m_sock.sendData(m_data)
+        m_sock.addMessage(m_sock.ipAddr, JSON.stringify({
+                                                            "usrName": "You(" + m_sock.usrName + ")",
+                                                            "msgText": data,
+                                                            "msgDate": date.toLocaleString("")
+                                                        }))
+        m_sock.sendData(str_msg)
         if(!rContainsIp(m_sock.ipAddr))
         {
             msgView.listModelR.append({
@@ -40,7 +43,11 @@ function send(data)
     }
     else
     {
-        m_sock.addMessage(m_sock.ipAddr, m_data)
+        m_sock.addMessage(m_sock.ipAddr, JSON.stringify({
+                                                            "usrName": "You(" + m_sock.usrName + ")",
+                                                            "msgText": data,
+                                                            "msgDate": date.toLocaleString("")
+                                                        }))
         if(!rContainsIp(m_sock.ipAddr))
         {
             msgView.listModelR.append({

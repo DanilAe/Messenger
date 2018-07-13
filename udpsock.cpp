@@ -1,4 +1,4 @@
-#include "udpsock.h"
+ #include "udpsock.h"
 
 UdpSock::UdpSock(QObject *parent) : QObject(parent)
 {
@@ -64,12 +64,12 @@ void UdpSock::addMessage(QString usrName__, QByteArray data)
 	}
 }
 
-void UdpSock::getMessages(QString chatName)
-{
+void UdpSock::getMessages(QString chatIp)
+{	
 	QVector<Message*> messages;
 	for(int i = 0; i < chats->size(); i++)
 	{
-		if(chats->at(i).first == chatName)
+		if(chats->at(i).first == chatIp)
 		{
 			messages =  chats->at(i).second;
 		}
@@ -78,5 +78,10 @@ void UdpSock::getMessages(QString chatName)
 	for(Message* msg : messages)
 	{
 		emit getmessage(msg->usrName(), msg->msgText(), msg->msgDate());
+		qDebug() << "---------" << chatIp.toStdString().c_str() << "--------";
+		qDebug() << "usrName:\t" << msg->usrName();
+		qDebug() << "msgText:\t" << msg->msgText();
+		qDebug() << "msgDate:\t" << msg->msgDate();
+		qDebug() << "----------------------------";
 	}
 }
