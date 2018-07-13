@@ -15,33 +15,31 @@ class UdpSock : public QObject
 {
 		Q_OBJECT
 
-		typedef QPair<QString, QVector<Message*>> chat;
-
 		QUdpSocket* m_pudp;
 
 		QHostAddress last = QHostAddress::LocalHost;
 
 		quint16 port_last = 8080;
 
-		QString m_usrName;
-
-		QVector<chat>* chats;
+		QString m_usrName;		
 
 		Q_PROPERTY(QString usrName READ usrName WRITE setUsrName)
 
 		Q_PROPERTY(QString ipAddr READ ipAddr WRITE setIpAddr)
 
-	public:
-		Q_INVOKABLE void sendData(QString data)
-		{ this->sendData(QByteArray().append(data), last, port_last); }
+		Q_PROPERTY(QString localHost READ localHost)
 
-		Q_INVOKABLE void getMessages(QString chatIp);
+	public:
 
 		explicit UdpSock(QObject *parent = nullptr);
 
-		void sendData(QByteArray data, QHostAddress reciever, quint16 recieverPort);
+		QString localHost()
+		{ return QHostAddress::LocalHost; }
 
-		Q_INVOKABLE void addMessage(QString usrName__, QByteArray data);
+		Q_INVOKABLE void sendData(QString data)
+		{ this->sendData(QByteArray().append(data), last, port_last); }
+
+		void sendData(QByteArray data, QHostAddress reciever, quint16 recieverPort);
 
 		QString ipAddr()
 		{ return last.toString(); }
@@ -53,16 +51,18 @@ class UdpSock : public QObject
 		{ m_usrName = usrName_; }
 
 		void setIpAddr(QString other)
-		{ last = QHostAddress(other); }
+		{
+			if(QHostAddress(other).isNull())
+				return;
+			last = QHostAddress(other);
+		}
 
 	signals:
+
 		void newmessage(QString usrName, QString msgText, QString msgDate, QString ipAddress);
 
-		void getmessage(QString usrName, QString msgText, QString msgDate);
-
-		void clear();
-
 	public slots:
+
 		void onNewMessage();
 };
 

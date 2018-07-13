@@ -35,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     udpsock.h \
-    message.h
+    message.h \
+    MessengerCache.h

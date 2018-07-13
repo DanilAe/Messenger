@@ -1,8 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <udpsock.h>
-#include <message.h>
 #include <QDebug>
+#include "udpsock.h"
+#include "message.h"
+#include "MessengerCache.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +17,8 @@ int main(int argc, char *argv[])
 	QQmlApplicationEngine engine;
 	qmlRegisterType<Message>("my.porgram.message", 1, 0, "Message");
 	qmlRegisterType<UdpSock>("my.program.udpSock", 1, 0, "UdpSocket");
+	qmlRegisterType<History>("my.program.cache.history", 1, 0, "History");
+	qmlRegisterType<UserInfo>("my.program.cache.userInfo", 1, 0, "UserInfo");
 	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 	if (engine.rootObjects().isEmpty())
 		return -1;

@@ -49,7 +49,7 @@ Item {
                     onClicked: {
                         if(ip != "")
                         {
-                            if(usrName != JsEngine.lastUsr)
+                            if(usrName !== JsEngine.userInfo.lastUser)
                             {
                                 JsEngine.changeChat(chatId, ip, usrName)
                             }

@@ -23,7 +23,6 @@ class Message : public QObject
 			doc.object().insert("msgDate", "");
 			doc.object().insert("msgText", "");
 			doc.object().insert("usrName", "");
-			doc.object().insert("key", "");
 		}
 
 		Message(Message &other)
@@ -34,11 +33,6 @@ class Message : public QObject
 		Message(QByteArray data, QObject *parent = nullptr)
 		{
 			doc = QJsonDocument::fromJson(data);
-		}
-
-		QString key()
-		{
-			return this->doc.object().value("key").toString();
 		}
 
 		QString usrName()
